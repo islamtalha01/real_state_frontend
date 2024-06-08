@@ -54,22 +54,21 @@
 
 
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import UserMessage from "./UserMessage";
 import SystemMessage from "./SystemMessage";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { useMessages } from "../../MessageContext";
+
 const Content = () => {
     const { messages, loading } = useMessages();
+    const scrollRef = useRef();
 
-
-
-
-
-
-
-
-
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
 
     return (
         <div className="relative flex-1 h-full flex flex-col">
@@ -80,23 +79,21 @@ const Content = () => {
                         <p className="text-gray-400 mt-2 text-left">
                             AI agent for Southern California
                         </p>
-                       
                     </div>
                 </div>
             </div>
             {messages.length > 0 ? (
-                <ScrollToBottom
-                    initialScrollBehavior="auto"
-                    followButtonClassName="scroll-to-last-message"
-                    className="flex-1 overflow-x-hidden overflow-y-auto"
-                >
-                    {messages.map((message, index) =>
-                        message.role === "user" ? (
-                            <UserMessage key={index} message={message.content} />
-                        ) : (
-                            <SystemMessage key={index} message={message.content} loading={loading} />
-                        )
-                    )}
+                <ScrollToBottom className="flex-1 overflow-x-hidden overflow-y-auto">
+                    {messages.map((message, index) => (
+                        <div key={index}>
+                            {message.role === "user" ? (
+                                <UserMessage message={message.content} />
+                            ) : (
+                                <SystemMessage message={message.content} loading={loading} />
+                            )}
+                        </div>
+                    ))}
+                    <div ref={scrollRef} />
                 </ScrollToBottom>
             ) : (
                 <div className="text-center pt-5 flex-1">
