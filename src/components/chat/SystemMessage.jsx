@@ -1,9 +1,9 @@
 import React from 'react';
-import {ChatBubbleOvalLeftEllipsisIcon} from "@heroicons/react/24/solid";
-import Markdown from "./Markdown";
+// import Markdown from "./Markdown";
 import Avatar from '../Avatar';
 import ChatLoader from './ChatLoader';
 import { useMessages } from "../../MessageContext";
+import ReactMarkdown from "react-markdown";
 
 const SystemMessage = ({message}) => {
     console.log("message",message)
@@ -18,15 +18,19 @@ const SystemMessage = ({message}) => {
             <div className="flex items-start gap-4  max-lg:px-2 py-4">
                 <Avatar className="h-8 w-8 text-gray-400" />
                 <div className="flex flex-col">
-                    <div className="font-bold">Devin</div>
+                    <div className="font-bold">Agent</div>
                    { loading && message?.loading == true ?
                     <div className="mt-2 prose prose-invert"> 
                    <ChatLoader/>
                    </div> 
                    : 
-                    <div className="mt-2  prose-invert w-full">
+                    // <div className="mt-2  prose-invert w-full">
+                    <ReactMarkdown>
                         {message}
-                    </div>}
+                    </ReactMarkdown>
+
+                    // </div>
+                    }
                 </div>
             </div>
         </div>

@@ -110,8 +110,8 @@ export default function Sidebar() {
               <img
                         alt="Devin"
                         loading="lazy"
-                        width="110"
-                        height="110"
+                        width="60"
+                        height="60"
                         decoding="async"
                         data-nimg="1"
                         className="rounded-md text-transparent"
@@ -129,7 +129,7 @@ export default function Sidebar() {
 
         <div className="flex items-center justify-between  pb-3 duration-300">
             <div className="flex items-center">
-            <ReloadButton styleProp={{ width: '35px', height: '35px' }}/>
+            <ReloadButton styleProp={{ width: '20px', height: '20px' }}/>
             </div>
           </div>
           

@@ -10,11 +10,11 @@ const ReloadButton = ({styleProp}) => {
 <div style={{ padding: '15px', margin: '0px' }}>
    <button
       onClick={handleReload}
-      className="flex items-center justify-center  bg-blue-500 text-white rounded-full p-7"
+      className="flex items-center justify-center  bg-blue-500 text-white rounded-full p-3"
       
       aria-label="Reload Page"
     >
-       <RxReload style= {styleProp ? styleProp : { width: "32px", height: "32px" }}/>
+       <RxReload style= {styleProp ? styleProp : { width: "15px", height: "15px" }}/>
  
     </button>
     </div>
