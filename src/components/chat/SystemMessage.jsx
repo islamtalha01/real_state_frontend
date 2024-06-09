@@ -24,13 +24,9 @@ const SystemMessage = ({message}) => {
                    <ChatLoader/>
                    </div> 
                    : 
-                    // <div className="mt-2  prose-invert w-full">
-                    <ReactMarkdown>
+                    <div className="mt-2  prose-invert w-full">
                         {message}
-                    </ReactMarkdown>
-
-                    // </div>
-                    }
+                    </div>}
                 </div>
             </div>
         </div>
