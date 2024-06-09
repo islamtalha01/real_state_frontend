@@ -75,8 +75,8 @@ export default function Sidebar() {
                       <img
                         alt="Devin"
                         loading="lazy"
-                        width="24"
-                        height="24"
+                        width="40"
+                        height="40"
                         decoding="async"
                         data-nimg="1"
                         className="rounded-md text-transparent"
@@ -101,17 +101,17 @@ export default function Sidebar() {
       {/* Static sidebar for desktop */}
       {/* Sidebar component, swap this element with another sidebar if you like */}
 
-      <div className="hidden justify-between md:flex md:w-64 md:flex-col  md:inset-y-0 m-4">
+      <div className="hidden  justify-between md:flex md md:flex-col  md:inset-y-0 m-4">
 
-        <div className="flex-1 flex flex-col min-h-0 bg-[#2E2E2E] rounded-lg shadow-lg shadow-black">
+        <div className="flex-1 flex flex-col w-fit-content min-h-0 bg-[#2E2E2E] rounded-lg shadow-lg shadow-black">
           <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
             <div className="flex items-center">
               <a className="group flex items-center p-2" href="/">
               <img
                         alt="Devin"
                         loading="lazy"
-                        width="40"
-                        height="40"
+                        width="110"
+                        height="110"
                         decoding="async"
                         data-nimg="1"
                         className="rounded-md text-transparent"
@@ -129,7 +129,7 @@ export default function Sidebar() {
 
         <div className="flex items-center justify-between  pb-3 duration-300">
             <div className="flex items-center">
-            <ReloadButton/>
+            <ReloadButton styleProp={{ width: '35px', height: '35px' }}/>
             </div>
           </div>
           

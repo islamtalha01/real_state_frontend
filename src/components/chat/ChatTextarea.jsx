@@ -14,7 +14,7 @@ const ChatTextarea = () => {
 
   const fetchAgentID = async () => {
     try {
-      const response = await fetch("http://15.157.174.222:5000/start");
+      const response = await fetch("https://15.157.174.222/start");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -44,7 +44,7 @@ const ChatTextarea = () => {
 
     try {
       const thread_id = agentID;
-      const response = await fetch("http://15.157.174.222:5000/chat", {
+      const response = await fetch("https://15.157.174.222/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
