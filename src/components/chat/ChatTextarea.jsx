@@ -79,7 +79,7 @@ const ChatTextarea = () => {
   }, []);
 
   const handleKeyDown = async (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if ((e.key === "Enter" && !e.shiftKey) || e.type === "click") {
       e.preventDefault();
       if (loading) return;
       fetchResponseFromAssistant();
@@ -119,6 +119,7 @@ const ChatTextarea = () => {
               className={`text-white p-2 rounded-full ${
                 prompt.length > 0 ? "bg-blue-500" : "bg-gray-500"
               }`}
+              onClick={handleKeyDown}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +135,7 @@ const ChatTextarea = () => {
           )}
         </div>
 
-        <input
+        <input className=" border-2 border-red-500"
           type="file"
           id="fileInput"
           style={{ display: "none" }}
@@ -142,7 +143,10 @@ const ChatTextarea = () => {
         />
       </div>
       {loading && (
-        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+        <div
+        onClick={handleStopClick}
+        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+      >
           <div className="text-white p-2 rounded-full bg-blue-500">
        
             <svg

@@ -8,7 +8,6 @@ import { BrowserRouter } from "react-router-dom";
 import { MessageProvider } from './MessageContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-   <Provider store={store}>
    <BrowserRouter>
    <MessageProvider>
       <App />
@@ -16,5 +15,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
    
    </BrowserRouter>
    
-   </Provider>
 )

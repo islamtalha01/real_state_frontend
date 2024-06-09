@@ -4,16 +4,14 @@ import Footer from "../components/chat/Footer";
 import ChatTextarea from "../components/chat/ChatTextarea";
 
 export default function ChatPage() {
-    return (
+  return (
     <Layout title="Chat">
-        <Content />
-        <Footer>
-
-        <div class="flex fixed bottom-10  w-2/5 flex-col gap-1.5 rounded-[26px]  ">
-
-            <ChatTextarea />
-       </div>
-        </Footer>
+      <Content />
+      {/* <Footer> */}
+        {/* <div className=" fixed bottom-20 z-20  xl:right-32 md:w-3/6 lg:w-4/6 w-3/6 bg-accents-0 flex-col gap-1.5 "> */}
+          {/* <ChatTextarea /> */}
+        {/* </div> */}
+      {/* </Footer> */}
     </Layout>
-  )
+  );
 }

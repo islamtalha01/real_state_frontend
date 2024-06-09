@@ -101,7 +101,7 @@ export default function Sidebar() {
       {/* Static sidebar for desktop */}
       {/* Sidebar component, swap this element with another sidebar if you like */}
 
-      <div className="hidden justify-between md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 m-4">
+      <div className="hidden justify-between md:flex md:w-64 md:flex-col  md:inset-y-0 m-4">
 
         <div className="flex-1 flex flex-col min-h-0 bg-[#2E2E2E] rounded-lg shadow-lg shadow-black">
           <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
