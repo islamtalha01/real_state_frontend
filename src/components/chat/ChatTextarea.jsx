@@ -204,7 +204,7 @@ const ChatTextarea = () => {
 
   const fetchAgentID = async () => {
     try {
-      const response = await fetch("https://15.157.174.222/start");
+      const response = await fetch("https://real-estate-ai-32c351019223.herokuapp.com/start");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -234,7 +234,7 @@ const ChatTextarea = () => {
 
     try {
       const thread_id = agentID;
-      const response = await fetch("https://15.157.174.222/chat", {
+      const response = await fetch("https://real-estate-ai-32c351019223.herokuapp.com/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
