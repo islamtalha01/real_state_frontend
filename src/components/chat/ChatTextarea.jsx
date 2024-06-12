@@ -8,11 +8,14 @@ import { useMessages } from "../../MessageContext";
 import Loader from "../loader/DevinLoader";
 
 const ChatTextarea = () => {
-  const textAreaRef = useRef(null);
 
+
+  const textAreaRef = useRef(null);
   const [prompt, setPrompt] = useState("");
   const [agentID, setAgentID] = useState(null);
   const { messages, setMessages, setLoading, loading } = useMessages();
+  const [isRecording, setIsRecording] = useState(false);
+  const recognition = useRef(null);
 
   const fetchAgentID = async () => {
     try {
@@ -32,13 +35,12 @@ const ChatTextarea = () => {
     }
   };
 
-  const fetchResponseFromAssistant = async () => {
+   const fetchResponseFromAssistant = async () => {
     if (prompt.trim() === "") return;
 
     const userMessage = { content: prompt.trim(), role: "user" };
     setMessages((messages) => [...messages, userMessage]);
 
-    // Add a dummy loading message
     const loadingMessage = {
       content: <Loader />,
       role: "system",
@@ -67,7 +69,6 @@ const ChatTextarea = () => {
 
       const data = await response.json();
 
-      // Replace the loading message with the actual response
       setMessages((messages) =>
         messages.map((msg) =>
           msg.isLoading ? { content: data.response, role: "system" } : msg
@@ -75,33 +76,87 @@ const ChatTextarea = () => {
       );
 
       setLoading(false);
-
     } catch (error) {
-      toast.error( + error.message);
-
       console.error("Error sending message:", error.message);
     }
   };
 
+
+
   useEffect(() => {
     fetchAgentID();
+
+    if (!("webkitSpeechRecognition" in window)) {
+      console.error("Speech recognition not supported in this browser.");
+      return;
+    }
+
+    recognition.current = new window.webkitSpeechRecognition();
+    recognition.current.continuous = true;
+    recognition.current.interimResults = false;
+    recognition.current.lang = "en-US";
+
+    recognition.current.onresult = (event) => {
+      console.log("Speech recognition result event:", event);
+      const speechResult = event.results[event.resultIndex][0].transcript;
+      console.log("Speech result:", speechResult);
+      setPrompt((prevPrompt) => prevPrompt + " " + speechResult);
+    };
+
+    recognition.current.onerror = (event) => {
+      console.error("Speech recognition error", event.error);
+      setIsRecording(false);
+    };
+
+    recognition.current.onend = () => {
+      if (isRecording) {
+        console.log("Restarting speech recognition...");
+        recognition.current.start();
+      }
+    };
   }, []);
+
 
   const handleKeyDown = async (e) => {
     if ((e.key === "Enter" && !e.shiftKey) || e.type === "click") {
       e.preventDefault();
       if (loading) return;
+      if (isRecording) {
+        recognition.current.stop();
+        setIsRecording(false);
+      }
       fetchResponseFromAssistant();
-
       setPrompt("");
     }
   };
+
+
   const handleStopClick = () => {
-    // Cancel the ongoing request
+    if (isRecording) {
+      recognition.current.stop();
+      setIsRecording(false);
+    }
     setLoading(false);
-    // Remove the dummy loading message
     setMessages((messages) => messages.filter((msg) => !msg.isLoading));
   };
+
+
+
+
+  const handleMicClick = () => {
+    if (isRecording) {
+      recognition.current.stop();
+      setIsRecording(false);
+    } else {
+      recognition.current.start();
+      setIsRecording(true);
+    }
+  };
+
+
+
+
+
   return (
     <div className="mt-1 relative rounded-md shadow-sm">
       <div className="relative">
@@ -118,33 +173,68 @@ const ChatTextarea = () => {
           onChange={(e) => setPrompt(e.target.value)}
         />
 
-        <div className="absolute inset-y-0 left-0 flex items-center pl-2"></div>
-
-        <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+        <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
           {!loading && (
-            <div
-              className={`text-white p-2 rounded-full ${
-                prompt.length > 0 ? "bg-blue-500 cursor-pointer" : "bg-gray-500"
-              }`}
-              onClick={handleKeyDown}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-                className={`h-4 w-4 dark:text-white
-                `}
+            <>
+              <div
+                className={`text-white p-2 rounded-full ${
+                  prompt.length > 0 ? "bg-blue-500" : "bg-gray-500"
+                }`}
+                onClick={handleKeyDown}
               >
-                <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
-              </svg>
-            </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                  className="h-4 w-4 dark:text-white"
+                >
+                  <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+                </svg>
+              </div>
+              <div
+                className="text-white p-2 rounded-full bg-blue-500"
+                onClick={handleMicClick}
+              >
+                {isRecording ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                    className="h-4 w-4 text-red"
+                  >
+                    <rect width="256" height="256" fill="none"></rect>
+                    <rect
+                      x="96"
+                      y="96"
+                      width="64"
+                      height="64"
+                      rx="8"
+                      fill="currentColor"
+                    ></rect>
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                    className="h-4 w-4 dark:text-white"
+                  >
+                    <path d="M128,8a48,48,0,0,0-48,48v56a48,48,0,0,0,96,0V56A48,48,0,0,0,128,8Zm32,104a32,32,0,0,1-64,0V56a32,32,0,0,1,64,0ZM216,104a8,8,0,0,0-8,8v16a80,80,0,0,1-160,0V112a8,8,0,0,0-16,0v16a96.11,96.11,0,0,0,88,95.62V248H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16H136V223.62A96.11,96.11,0,0,0,224,128V112A8,8,0,0,0,216,104Z"></path>
+                  </svg>
+                )}
+              </div>
+            </>
           )}
         </div>
 
         <input
-          className=" border-2 border-red-500"
+          className="border-2 border-red-500"
           type="file"
           id="fileInput"
           style={{ display: "none" }}
@@ -154,7 +244,7 @@ const ChatTextarea = () => {
       {loading && (
         <div
           onClick={handleStopClick}
-          className="cursor-pointer absolute inset-y-0 right-0 pr-3 flex items-center"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center"
         >
           <div className="text-white p-2 rounded-full bg-blue-500">
             <svg
