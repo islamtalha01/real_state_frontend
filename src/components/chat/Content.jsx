@@ -82,17 +82,24 @@ const Content = () => {
       </div>
       {messages.length > 0 ? (
         <ScrollToBottom className="flex-1 overflow-hidden scrollbar-hide">
-          {messages.map((message, index) => (
+        {messages.map((message, index) => {
+          const isLastMessage = index === messages.length - 1;
+          return (
             <div key={index}>
               {message.role === "user" ? (
                 <UserMessage message={message.content} />
               ) : (
-                <SystemMessage message={message.content} loading={loading} />
+                <SystemMessage
+                  message={message.content}
+                  loading={loading}
+                  isLastMessage={isLastMessage}
+                />
               )}
             </div>
-          ))}
-          <div ref={scrollRef} />
-        </ScrollToBottom>
+          );
+        })}
+        <div ref={scrollRef} />
+      </ScrollToBottom>
       ) : (
         <div className="text-center pt-5 flex-1">
           <div className="pb-1 text-lg dark:text-white">Hey there!</div>
