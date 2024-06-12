@@ -26,7 +26,6 @@ const ChatTextarea = () => {
       const data = await response.json();
       setAgentID(data.thread_id);
       console.log("agent id is", data.thread_id);
-      toast.success("Chat Bot Connected to Open AI Successfully!");
 
     } catch (error) {
       toast.error( error.message);
@@ -77,6 +76,8 @@ const ChatTextarea = () => {
 
       setLoading(false);
     } catch (error) {
+      toast.error( error.message);
+
       console.error("Error sending message:", error.message);
     }
   };

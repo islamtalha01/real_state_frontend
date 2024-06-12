@@ -11,7 +11,7 @@ const SystemMessage = ({ message, loading, isLastMessage }) => {
                 <div className="flex items-start gap-4 max-lg:px-2 py-4">
                     <Avatar className="h-8 w-8 text-gray-400" />
                     <div className="flex flex-col">
-                        <div className="font-bold">Devin</div>
+                        <div className="font-bold">Agent</div>
                         {loading && isLastMessage ? (
                             <div className="mt-2 prose prose-invert">
                                 <ChatLoader />
