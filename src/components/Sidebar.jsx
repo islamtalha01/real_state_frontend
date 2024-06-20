@@ -8,6 +8,8 @@ import { classNames } from "../utilis/utilis";
 import { navigation } from "../data/navigation";
 import ReloadButton from "./ReloadButton";
 import MyIcon from "../../public/MyIcon";
+import sidebarIcon from '../assets/test.png'
+
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -72,16 +74,8 @@ export default function Sidebar() {
                 <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
                   <div className="flex items-center">
                     <a className="group flex items-center p-2" href="/">
-                      <img
-                        alt="Devin"
-                        loading="lazy"
-                        width="40"
-                        height="40"
-                        decoding="async"
-                        data-nimg="1"
-                        className="rounded-md text-transparent"
-                        src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJmNnMwaGJMelpSdEY3cGwwaGlBbEliNFNYaCJ9?width=200"
-                      />
+                    <img src={sidebarIcon} alt="Sidebar" style={{width:"60px",height:'60px',borderRadius:"50%"}} />
+
                       <div className="flex w-full flex-1 items-center duration-300 opacity-100">
                         {/* <h1 className="relative ml-2 block w-fit text-xl font-bold leading-6 after:absolute after:block after:h-[2px] after:w-full after:origin-center after:scale-x-0 after:bg-black after:transition after:duration-200 after:content-[''] after:hover:scale-x-100 dark:text-white dark:after:bg-white">Real Estate Genius */}
                         {/* </h1> */}
@@ -107,17 +101,9 @@ export default function Sidebar() {
           <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
             <div className="flex items-center">
               <a className="group flex items-center p-2" href="/">
-              <img
-                        alt="Devin"
-                        loading="lazy"
-                        width="60"
-                        height="60"
-                        decoding="async"
-                        data-nimg="1"
-                        className="rounded-md text-transparent"
-                        src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJmNnMwaGJMelpSdEY3cGwwaGlBbEliNFNYaCJ9?width=200"
-                      />
-                {/* <MyIcon/> */}
+              
+                <img src={sidebarIcon} alt="Sidebar" style={{width:"60px",height:'60px',borderRadius:"50%"}} />
+  
                 <div className="flex w-full flex-1 items-center duration-300 opacity-100"></div>
               </a>
             </div>
