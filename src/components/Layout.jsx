@@ -28,7 +28,7 @@ const Layout = ({ children, title }) => {
       <Sidebar />
 
 
-        <div className="flex-1  p-4  m-8 mt-20 md:m-4 bg-accents-0 rounded-lg shadow-lg hide-scrollbar ml-8">
+        <div className="flex-1  p-2  m-6 mt-20 md:m-4 bg-accents-0 rounded-lg shadow-lg hide-scrollbar ml-8">
           <div className="flex flex-col h-full hide-scrollbar">{children}</div>
         </div>
       </main>
