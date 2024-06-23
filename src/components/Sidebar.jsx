@@ -8,8 +8,7 @@ import { classNames } from "../utilis/utilis";
 import { navigation } from "../data/navigation";
 import ReloadButton from "./ReloadButton";
 import MyIcon from "../../public/MyIcon";
-import sidebarIcon from '../assets/test.png'
-
+import sidebarIcon from "../assets/test.png";
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -68,23 +67,35 @@ export default function Sidebar() {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex-1 h-0 pb-4 overflow-y-auto pt-3">
-                {/* <span className="font-medium text-gray-400 text-sm px-2">Templates</span> */}
+              
+              {/* <div className="  justify-between flex-col  md:inset-y-0 m-4"> */}
+        <div className="flex-1 flex flex-col w-auto min-h-0 bg-[#2E2E2E] rounded-lg shadow-lg shadow-black">
+          <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
+            <div className="flex items-center">
+              <a className="group flex items-center p-2" href="/">
+                <img
+                  src={sidebarIcon}
+                  alt="Sidebar"
+                  style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                />
 
-                <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
-                  <div className="flex items-center">
-                    <a className="group flex items-center p-2" href="/">
-                    <img src={sidebarIcon} alt="Sidebar" style={{width:"60px",height:'60px',borderRadius:"50%"}} />
-
-                      <div className="flex w-full flex-1 items-center duration-300 opacity-100">
-                        {/* <h1 className="relative ml-2 block w-fit text-xl font-bold leading-6 after:absolute after:block after:h-[2px] after:w-full after:origin-center after:scale-x-0 after:bg-black after:transition after:duration-200 after:content-[''] after:hover:scale-x-100 dark:text-white dark:after:bg-white">Real Estate Genius */}
-                        {/* </h1> */}
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
+                <div className="flex w-full flex-1 items-center duration-300 opacity-100"></div>
+              </a>
             </div>
+          </div>
+
+          <div className="flex-1 flex flex-col pb-4 overflow-y-auto "></div>
+
+          <div className="flex items-center justify-between  pb-3 duration-300">
+            <div className="flex items-center">
+              <ReloadButton styleProp={{ width: "20px", height: "20px" }} />
+            </div>
+          </div>
+        </div>
+      {/* </div> */}
+
+            </div>
+            
           </Transition.Child>
           <div className="flex-shrink-0 w-14">
             {/* Force sidebar to shrink to fit close icon */}
@@ -96,29 +107,28 @@ export default function Sidebar() {
       {/* Sidebar component, swap this element with another sidebar if you like */}
 
       <div className="hidden  justify-between md:flex md md:flex-col  md:inset-y-0 m-4">
-
         <div className="flex-1 flex flex-col w-fit-content min-h-0 bg-[#2E2E2E] rounded-lg shadow-lg shadow-black">
           <div className="flex items-center justify-between border-b border-[#f2f2f2] pb-3 duration-300 dark:border-[#484848]">
             <div className="flex items-center">
               <a className="group flex items-center p-2" href="/">
-              
-                <img src={sidebarIcon} alt="Sidebar" style={{width:"60px",height:'60px',borderRadius:"50%"}} />
-  
+                <img
+                  src={sidebarIcon}
+                  alt="Sidebar"
+                  style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                />
+
                 <div className="flex w-full flex-1 items-center duration-300 opacity-100"></div>
               </a>
             </div>
           </div>
 
-        <div className="flex-1 flex flex-col pb-4 overflow-y-auto "></div>
+          <div className="flex-1 flex flex-col pb-4 overflow-y-auto "></div>
 
-
-
-        <div className="flex items-center justify-between  pb-3 duration-300">
+          <div className="flex items-center justify-between  pb-3 duration-300">
             <div className="flex items-center">
-            <ReloadButton styleProp={{ width: '20px', height: '20px' }}/>
+              <ReloadButton styleProp={{ width: "20px", height: "20px" }} />
             </div>
           </div>
-          
         </div>
       </div>
 
