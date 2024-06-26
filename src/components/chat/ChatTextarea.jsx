@@ -166,6 +166,7 @@ const ChatTextarea = () => {
           style={{ caretColor: "#3B82F6" }}
           onKeyDown={handleKeyDown}
           onChange={(e) => setPrompt(e.target.value)}
+          disabled={loading}
         />
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
