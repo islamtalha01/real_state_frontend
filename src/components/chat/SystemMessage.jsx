@@ -48,7 +48,7 @@ const SystemMessage = ({ message, loading, isLastMessage }) => {
                                 <ChatLoader />
                             </div>
                         ) : (
-                            <div className="mt-2 prose prose-invert w-full hover:bg-white hover:text-black transition-colors duration-300">
+                            <div className="mt-2 prose prose-invert w-full hover:bg-[#d3d3d3] hover:text-black transition-colors duration-300 p-4">
                                 <Markdown>{message}</Markdown>
                             </div>
                         )}
