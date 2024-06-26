@@ -11,7 +11,7 @@ const ChatTextarea = () => {
   const textAreaRef = useRef(null);
   const [prompt, setPrompt] = useState("");
   const [agentID, setAgentID] = useState(null);
-  const { messages, setMessages, setLoading, loading } = useMessages();
+  const { messages, setMessages, setLoading, loading,audioEnd,setAudioEnd } = useMessages();
   const [isRecording, setIsRecording] = useState(false);
   const recognition = useRef(null);
 
@@ -48,6 +48,7 @@ const ChatTextarea = () => {
     setMessages((messages) => [...messages, loadingMessage]);
 
     setLoading(true);
+    setAudioEnd(true)
 
     try {
       const thread_id = agentID;
@@ -72,15 +73,27 @@ const ChatTextarea = () => {
      
       const audioUrl = URL.createObjectURL(audioBlob)
       const audio = new Audio(audioUrl);
+      const duration = audio.duration;
+      console.log("duration",duration)
       audio.play();
+      audio.onended = () => {
+        // Change your flag here
+        console.log("Audio has finished playing");
+        setAudioEnd(false)
 
+        // e.g., setFlag(false);
+      };
       setMessages((messages) =>
         messages.map((msg) =>
           msg.isLoading ? { content: data.text, role: "system" } : msg
         )
       );
 
+    
+
       setLoading(false);
+
+
     } catch (error) {
       toast.error(error.message);
       console.error("Error sending message:", error.message);
@@ -146,7 +159,7 @@ const ChatTextarea = () => {
     if (isRecording) {
       recognition.current.stop();
       setIsRecording(false);
-    } else {
+    } else if (!audioEnd) {
       recognition.current.start();
       setIsRecording(true);
     }
@@ -166,7 +179,7 @@ const ChatTextarea = () => {
           style={{ caretColor: "#3B82F6" }}
           onKeyDown={handleKeyDown}
           onChange={(e) => setPrompt(e.target.value)}
-          disabled={loading}
+          disabled={audioEnd}
         />
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
@@ -192,6 +205,7 @@ const ChatTextarea = () => {
               <div
                 className="text-white p-2 rounded-full bg-blue-500"
                 onClick={handleMicClick}
+                
               >
                 {isRecording ? (
                   <svg
@@ -212,7 +226,7 @@ const ChatTextarea = () => {
                       fill="currentColor"
                     ></rect>
                   </svg>
-                ) : (
+                ) : ( 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="1em"

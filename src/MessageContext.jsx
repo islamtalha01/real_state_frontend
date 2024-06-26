@@ -12,11 +12,11 @@ const initialMessages = [
 
 // Create a provider component
 export const MessageProvider = ({ children }) => {
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState([]);
   const [loading,setLoading] = useState(false)
-
+  const [audioEnd,setAudioEnd] = useState(false)
   return (
-    <MessageContext.Provider value={{ messages, setMessages,loading,setLoading }}>
+    <MessageContext.Provider value={{ messages, setMessages,loading,setLoading,audioEnd,setAudioEnd }}>
       {children}
     </MessageContext.Provider>
   );

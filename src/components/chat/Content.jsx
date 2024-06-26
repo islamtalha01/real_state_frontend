@@ -29,9 +29,9 @@ const Content = () => {
           </div>
         </div>
       </div>
-      {messages.length > 0 ? (
+      {messages?.length > 0 ? (
         <ScrollToBottom className="flex-1 overflow-hidden scrollbar-hide">
-        {messages.map((message, index) => {
+        {messages?.map((message, index) => {
           const isLastMessage = index === messages.length - 1;
           return (
             <div key={index}>
@@ -53,8 +53,8 @@ const Content = () => {
         <div className="text-center pt-5 flex-1">
           <div className="pb-1 text-lg dark:text-white">Hey there!</div>
           <div className=" p-4 text-sm text-center text-gray-400">
-            My name is Todd Kingsley AI Assistant here to help with your real
-            estate needs 🏠
+        
+          I am Todd Kingsley's AI Assistant and am here to help you with ALL of your real estate questions 🏠
           </div>
         </div>
       )}
