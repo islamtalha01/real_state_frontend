@@ -48,7 +48,6 @@ const ChatTextarea = () => {
     setMessages((messages) => [...messages, loadingMessage]);
 
     setLoading(true);
-    setAudioEnd(true)
 
     try {
       const thread_id = agentID;
@@ -74,17 +73,21 @@ const ChatTextarea = () => {
       const audioUrl = URL.createObjectURL(audioBlob)
       const audio = new Audio(audioUrl);
       const duration = audio.duration;
-      console.log("duration",duration)
-      if(true){
-        audio.play();
-        audio.onended = () => {
-          // Change your flag here
-          console.log("Audio has finished playing");
-          setAudioEnd(false)
+      console.log("audio end vlaue ",audioEnd)
+      setTimeout(()=>{
+        if(!audioEnd){
+          audio.play();
+          audio.onended = () => {
+            // Change your flag here
+            console.log("Audio has finished playing");
+            setAudioEnd(true)
+            setLoading(false);
   
-          // e.g., setFlag(false);
-        };
-      }
+            // e.g., setFlag(false);
+          };
+        }
+      },1000)
+     
      
       setMessages((messages) =>
         messages.map((msg) =>
@@ -96,6 +99,10 @@ const ChatTextarea = () => {
 
       setLoading(false);
 
+      if(audioEnd){
+        setAudioEnd(false)
+
+      }
 
     } catch (error) {
       toast.error(error.message);
@@ -155,7 +162,8 @@ const ChatTextarea = () => {
       setIsRecording(false);
     }
     setLoading(false);
-    setAudioEnd(false)
+    console.log("hi wi")
+    setAudioEnd(true)
 
     setMessages((messages) => messages.filter((msg) => !msg.isLoading));
   };
@@ -164,7 +172,7 @@ const ChatTextarea = () => {
     if (isRecording) {
       recognition.current.stop();
       setIsRecording(false);
-    } else if (!audioEnd) {
+    } else  {
       recognition.current.start();
       setIsRecording(true);
     }
@@ -184,7 +192,7 @@ const ChatTextarea = () => {
           style={{ caretColor: "#3B82F6" }}
           onKeyDown={handleKeyDown}
           onChange={(e) => setPrompt(e.target.value)}
-          disabled={audioEnd}
+          disabled={loading}
         />
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
