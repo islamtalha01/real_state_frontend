@@ -9,29 +9,37 @@ const introductoryMessage = [
   {
     content:
       "Are you interested in understanding the current real estate market trends in Southern California?",
-    role: "system",
+    role: "user",
   },
   {
     content:
       "Which specific areas or neighborhoods are you interested in exploring within Southern California?",
-    role: "system",
+    role: "user",
   },
   {
     content:
       "What type of community vibe are you looking for (e.g., family-friendly, urban, suburban, beach town)?",
-    role: "system",
+    role: "user",
   },
   {
     content:
       "Do you need information on the buying process, including financing options and what it is like to have Todd Kingsley on your team?",
-    role: "system",
+    role: "user",
   },
 ];
 
 const Content = () => {
-  const { messages, loading, setEnableAudio } = useMessages();
+  const { messages, loading, setEnableAudio,setMessages } = useMessages();
   const scrollRef = useRef();
+  // const childRef = useRef();
 
+  const triggerChildFunction = () => {
+    const userMessage = introductoryMessage[1]
+    setMessages((messages) => [...messages, userMessage]);
+    // if (childRef.current) {
+    //   childRef.current.handleKeyDown({ type: "click" });
+    // }
+  };
   const [isChecked, setIsChecked] = useState(false);
 
   const handleSwitch = (event) => {
@@ -133,44 +141,83 @@ const Content = () => {
       ) : (
        
 
-        <div className=" flex flex-col h-screen justify-center items-center overflow-auto ">
+      //   <div className=" flex flex-col h-screen justify-center items-center overflow-auto ">
           
-        <div class="mx-3 mt-12 flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
+      //   <div class="mx-3 mt-12 flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
          
-            <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
-              <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
+      //       <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
+      //         <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
               
-                <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
-                "Are you interested in understanding the current real estate market trends in Southern California?",
-                </div>
-              </button>
-              <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
+      //           <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
+      //           "Are you interested in understanding the current real estate market trends in Southern California?",
+      //           </div>
+      //         </button>
+      //         <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
               
-                <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
-                "Which specific areas or neighborhoods are you interested in exploring within Southern California?",
-                </div>
-              </button>
-            </div> 
-             <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
-              <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
+      //           <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
+      //           "Which specific areas or neighborhoods are you interested in exploring within Southern California?",
+      //           </div>
+      //         </button>
+      //       </div> 
+      //        <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
+      //         <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
              
-                <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
-                "What type of community vibe are you looking for (e.g., family-friendly, urban, suburban, beach town)?",
-                </div>
-              </button>
-              <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
+      //           <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
+      //           "What type of community vibe are you looking for (e.g., family-friendly, urban, suburban, beach town)?",
+      //           </div>
+      //         </button>
+      //         <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
                
-                <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
-      "Do you need information on the buying process, including financing options and what it is like to have Todd Kingsley on your team?",
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
+      //           <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
+      // "Do you need information on the buying process, including financing options and what it is like to have Todd Kingsley on your team?",
+      //           </div>
+      //         </button>
+      //       </div>
+      //     </div>
+      //   </div>
+
+
+
+
+
+
+
+<div className="flex flex-col h-screen justify-center items-center overflow-auto">
+  <div className="mx-3 mt-12 max-w-3xl flex flex-wrap items-stretch justify-center gap-4 md:grid md:grid-cols-2">
+    <button onClick={triggerChildFunction} className="relative flex w-64 h-20 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[12px]   ">
+      <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
+      🏡  Are you interested in understanding the current real estate market trends in Southern California?
+      </div>
+    </button>
+    <button className="relative flex w-64 h-20 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[12px]  ">
+      <div className="line-clamp-3 text-balance text-white hover:text-gray-600 ">
+      📍  Which specific areas or neighborhoods are you interested in exploring within Southern California?
+      </div>
+    </button>
+    <button className="relative flex w-64 h-20 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[12px]  ">
+      <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
+      🌟   What type of community vibe are you looking for (e.g., family-friendly, urban, suburban, beach town)?
+      </div>
+    </button>
+    <button className="relative flex w-64 h-20 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left	 align-top text-[12px]  ">
+      <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
+      💼  Do you need information on the buying process, including financing options and what it is like to have Todd Kingsley on your team?
+      </div>
+    </button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
       )}
-      {/* <div className=" mx-3 xl:mx-40 "> */}
       <div>
-        <ChatTextarea />
+        <ChatTextarea   />
       </div>
     </div>
   );

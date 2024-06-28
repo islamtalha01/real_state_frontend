@@ -2,12 +2,12 @@
 // @ts-nocheck
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,useImperativeHandle,forwardRef } from "react";
 import Textarea from "react-textarea-autosize";
 import { useMessages } from "../../MessageContext";
 import Loader from "../loader/DevinLoader";
 // import convertAudioBlobToText from './speechRecognition';
-const ChatTextarea = () => {
+const ChatTextarea = forwardRef((props, ref) => {
   const textAreaRef = useRef(null);
   const [prompt, setPrompt] = useState("");
   const [agentID, setAgentID] = useState(null);
@@ -155,6 +155,9 @@ const ChatTextarea = () => {
       setPrompt("");
     }
   };
+  useImperativeHandle(ref, () => ({
+    handleKeyDown,
+  }));
 
   const handleStopClick = () => {
     if (isRecording) {
@@ -310,6 +313,12 @@ const ChatTextarea = () => {
       )} */}
     </div>
   );
-};
+});
 
 export default ChatTextarea;
+
+
+
+
+
+
