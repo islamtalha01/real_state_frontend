@@ -26,7 +26,7 @@ const Avatar = ({ name, size,status }) => {
         // <div className="bg-white text-black flex items-center justify-center font-bold" style={avatarStyle}>
         //   {name ? name.charAt(0).toUpperCase()  : status == 'ai' ? 'DV' : getRandomNumber()} {/* Render initials or random number */}
         // </div>
-        <div className=" bg-[#0C2755] text-black flex items-center justify-center " style={avatarStyle}>
+        <div className=" bg-[#3B82F6] text-black flex items-center justify-center " style={avatarStyle}>
 
         <FontAwesomeIcon icon={faUser} className="user-icon" />
         </div>
