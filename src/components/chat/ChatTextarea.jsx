@@ -11,7 +11,7 @@ const ChatTextarea = () => {
   const textAreaRef = useRef(null);
   const [prompt, setPrompt] = useState("");
   const [agentID, setAgentID] = useState(null);
-  const { messages, setMessages, setLoading, loading,audioEnd,setAudioEnd } = useMessages();
+  const { messages, setMessages, setLoading, loading,audioEnd,setAudioEnd,enableAudio } = useMessages();
   const [isRecording, setIsRecording] = useState(false);
   const recognition = useRef(null);
 
@@ -75,14 +75,17 @@ const ChatTextarea = () => {
       const audio = new Audio(audioUrl);
       const duration = audio.duration;
       console.log("duration",duration)
-      audio.play();
-      audio.onended = () => {
-        // Change your flag here
-        console.log("Audio has finished playing");
-        setAudioEnd(false)
-
-        // e.g., setFlag(false);
-      };
+      if(true){
+        audio.play();
+        audio.onended = () => {
+          // Change your flag here
+          console.log("Audio has finished playing");
+          setAudioEnd(false)
+  
+          // e.g., setFlag(false);
+        };
+      }
+     
       setMessages((messages) =>
         messages.map((msg) =>
           msg.isLoading ? { content: data.text, role: "system" } : msg
@@ -152,6 +155,8 @@ const ChatTextarea = () => {
       setIsRecording(false);
     }
     setLoading(false);
+    setAudioEnd(false)
+
     setMessages((messages) => messages.filter((msg) => !msg.isLoading));
   };
 
@@ -166,14 +171,14 @@ const ChatTextarea = () => {
   };
 
   return (
-    <div className="mt-1 relative rounded-md shadow-sm">
+    <div className="mt-1 md:ml-16 flex flex-row justify-center relative rounded-md shadow-sm ">
       <div className="relative">
         <Textarea
           ref={textAreaRef}
           rows={1}
           name="comment"
           id="comment"
-          className="px-6 py-3 bg-accents-1 focus:outline-none block w-full text-white rounded-md resize-none pr-[3.5rem]"
+          className="pl-6 py-3 bg-accents-1 focus:outline-none block w-auto md:w-750 text-white rounded-md resize-none pr-[3.5rem]"
           placeholder="Type your message here..."
           value={prompt}
           style={{ caretColor: "#3B82F6" }}
@@ -183,6 +188,32 @@ const ChatTextarea = () => {
         />
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
+        {loading && (
+        <div
+          onClick={handleStopClick}
+          className="absolute inset-y-0 right-0 pr-3 flex items-center"
+        >
+          <div className="text-white p-2 rounded-full bg-blue-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="icon-lg"
+            >
+              <rect
+                width="10"
+                height="10"
+                x="7"
+                y="7"
+                fill="currentColor"
+                rx="1.25"
+              ></rect>
+            </svg>
+          </div>
+        </div>
+      )}
           {!loading && (
             <>
               <div
@@ -242,16 +273,8 @@ const ChatTextarea = () => {
             </>
           )}
         </div>
-
-        <input
-          className="border-2 border-red-500"
-          type="file"
-          id="fileInput"
-          style={{ display: "none" }}
-          onChange={() => setIsFileSelected(true)}
-        />
       </div>
-      {loading && (
+      {/* {loading && (
         <div
           onClick={handleStopClick}
           className="absolute inset-y-0 right-0 pr-3 flex items-center"
@@ -276,7 +299,7 @@ const ChatTextarea = () => {
             </svg>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

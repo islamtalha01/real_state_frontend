@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       width: {
         'fit-content': 'fit-content',
+        '750': '750px',
       },
       colors: {
         accents: {
@@ -13,6 +14,7 @@ module.exports = {
           2: "#2f3336",
           3: "#444",
         },
+        customBlue: '#3B82F6',
       },
     },
   },
