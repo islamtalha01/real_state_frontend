@@ -92,11 +92,7 @@ const Content = () => {
           </div>
         </div>
       </div>
-      
-      {messages.length > 0 ? (
-        <ScrollToBottom className="flex flex-row h-screen justify-center items-center overflow-hidden scrollbar-hide ">
-          <div>
-          <div className="flex flex-col items-center justify-center">
+    { !messages.length > 0 && <div className="flex flex-col items-center justify-center">
           <div className="text-center pt-4 pb-4">
           <div className="pb-1 text-lg dark:text-white">Hey there!</div>
            <div className=" p-4 text-sm text-center text-gray-400">
@@ -104,6 +100,16 @@ const Content = () => {
               your real estate questions 🏠
             </div>
           </div>
+          </div>}
+      {messages.length > 0 ? (
+        <ScrollToBottom className="flex flex-row h-screen justify-center items-center overflow-hidden scrollbar-hide ">
+          <div>
+          <div className="text-center pt-4 pb-4">
+          <div className="pb-1 text-lg dark:text-white">Hey there!</div>
+           <div className=" p-4 text-sm text-center text-gray-400">
+              I am Todd Kingsley's AI Assistant and am here to help you with ALL of
+              your real estate questions 🏠
+            </div>
           </div>
             {messages?.map((message, index) => {
               const isLastMessage = index === messages.length - 1;
@@ -131,7 +137,7 @@ const Content = () => {
           
         <div class="mx-3 mt-12 flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
          
-            {/* <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
+            <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
               <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
               
                 <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
@@ -144,8 +150,8 @@ const Content = () => {
                 "Which specific areas or neighborhoods are you interested in exploring within Southern California?",
                 </div>
               </button>
-            </div> */}
-            {/* <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
+            </div> 
+             <div class="flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
               <button class="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-xxs transition enabled:hover:bg-token-main-surface-secondary disabled:cursor-not-allowed">
              
                 <div class="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">
@@ -158,7 +164,7 @@ const Content = () => {
       "Do you need information on the buying process, including financing options and what it is like to have Todd Kingsley on your team?",
                 </div>
               </button>
-            </div> */}
+            </div>
           </div>
         </div>
       )}

@@ -40,7 +40,7 @@ const SystemMessage = ({ message, loading, isLastMessage }) => {
         <div className="bg-accents-0 text-white">
             <div className="max-w-4xl w-full mx-auto">
                 <div className='flex flex-row justify-left md:ml-20'>
-                <div className="flex ml-2 md:ml-12 items-start gap-4 max-lg:px-0 py-4">
+                <div className="flex ml-2 md:ml-16 items-start gap-4 max-lg:px-0 py-4">
                     <Avatar className="h-8 w-8 text-gray-400" status='ai' />
                     <div className="flex flex-col">
                         <div className="font-bold">Agent</div>
