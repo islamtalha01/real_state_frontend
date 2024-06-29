@@ -14,7 +14,8 @@ const ChatTextarea = forwardRef((props, ref) => {
   const { messages, setMessages, setLoading, loading,audioEnd,setAudioEnd,enableAudio } = useMessages();
   const [isRecording, setIsRecording] = useState(false);
   const recognition = useRef(null);
-
+  const [stopAudio,setStopAudio] = useState(false)
+  
   const fetchAgentID = async () => {
     try {
      const config ={ headers: {
@@ -72,21 +73,27 @@ const ChatTextarea = forwardRef((props, ref) => {
      
       const audioUrl = URL.createObjectURL(audioBlob)
       const audio = new Audio(audioUrl);
-      const duration = audio.duration;
+      // const duration = audio.duration;
       console.log("audio end vlaue ",audioEnd)
-      setTimeout(()=>{
-        if(!audioEnd){
-          audio.play();
-          audio.onended = () => {
-            // Change your flag here
-            console.log("Audio has finished playing");
-            setAudioEnd(true)
-            setLoading(false);
   
-            // e.g., setFlag(false);
-          };
-        }
-      },1000)
+      if(!stopAudio){
+        console.log("audio stop flag ," ,stopAudio )
+        audio.play();
+        audio.onended = () => {
+          // Change your flag here
+          console.log("Audio has finished playing");
+          setAudioEnd(true)
+          setLoading(false);
+
+          // e.g., setFlag(false);
+        };
+      }
+      else{
+        console.log("audio stop flag ," ,stopAudio )
+
+        setStopAudio(false)
+      }
+    
      
      
       setMessages((messages) =>
@@ -99,10 +106,10 @@ const ChatTextarea = forwardRef((props, ref) => {
 
       setLoading(false);
 
-      if(audioEnd){
-        setAudioEnd(false)
+      // if(audioEnd){
+      //   setAudioEnd(false)
 
-      }
+      // }
 
     } catch (error) {
       toast.error(error.message);
@@ -165,7 +172,8 @@ const ChatTextarea = forwardRef((props, ref) => {
       setIsRecording(false);
     }
     setLoading(false);
-    console.log("hi wi")
+    setStopAudio(true)
+
     setAudioEnd(true)
 
     setMessages((messages) => messages.filter((msg) => !msg.isLoading));
@@ -182,14 +190,14 @@ const ChatTextarea = forwardRef((props, ref) => {
   };
 
   return (
-    <div className="mt-1 md:ml-16 flex flex-row justify-center relative rounded-md shadow-sm ">
+    <div className="!mt-1 md:ml-16 flex flex-row justify-center relative rounded-md shadow-sm ">
       <div className="relative">
         <Textarea
           ref={textAreaRef}
           rows={1}
           name="comment"
           id="comment"
-          className="pl-6 py-3 bg-accents-1 focus:outline-none block w-auto md:w-750 text-white rounded-md resize-none pr-[3.5rem]"
+          className="!pl-6 py-3 bg-accents-1 focus:outline-none block w-auto md:w-750 text-white rounded-md resize-none pr-[3.5rem]"
           placeholder="Type your message here..."
           value={prompt}
           style={{ caretColor: "#3B82F6" }}
@@ -198,13 +206,13 @@ const ChatTextarea = forwardRef((props, ref) => {
           disabled={loading}
         />
 
-        <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
+        <div className="!absolute inset-y-0 right-0 flex items-center pr-2 space-x-2">
         {loading && (
         <div
           onClick={handleStopClick}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center"
+          className="!absolute inset-y-0 right-0 pr-3 flex items-center"
         >
-          <div className="text-white p-2 rounded-full bg-blue-500">
+          <div className="!text-white p-2 rounded-full bg-blue-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
@@ -228,7 +236,7 @@ const ChatTextarea = forwardRef((props, ref) => {
           {!loading && (
             <>
               <div
-                className={`text-white p-2 rounded-full ${
+                className={`!text-white p-2 rounded-full ${
                   prompt.length > 0 ? "bg-blue-500" : "bg-gray-500"
                 }`}
                 onClick={handleKeyDown}
