@@ -7,15 +7,20 @@ import Textarea from "react-textarea-autosize";
 import { useMessages } from "../../MessageContext";
 import Loader from "../loader/DevinLoader";
 // import convertAudioBlobToText from './speechRecognition';
-const ChatTextarea = forwardRef((props, ref) => {
+const ChatTextarea = ({fetchCounter}) => {
   const textAreaRef = useRef(null);
-  const [prompt, setPrompt] = useState("");
   const [agentID, setAgentID] = useState(null);
-  const { messages, setMessages, setLoading, loading,audioEnd,setAudioEnd,enableAudio } = useMessages();
+  const { messages, prompt,setPrompt,setMessages, setLoading, loading,audioEnd,setAudioEnd } = useMessages();
   const [isRecording, setIsRecording] = useState(false);
   const recognition = useRef(null);
   const [stopAudio,setStopAudio] = useState(false)
-  
+  const [shouldFetchResponse, setShouldFetchResponse] = useState(false);
+
+ //added llogic
+  const [mute, setMute] = useState(false); // Add mute state
+  const audioRef = useRef(null); // Add a ref to store the audio instance
+  const controller = useRef(null); // Add a ref to store the controller for cancelling fetch
+
   const fetchAgentID = async () => {
     try {
      const config ={ headers: {
@@ -35,6 +40,12 @@ const ChatTextarea = forwardRef((props, ref) => {
     }
   };
 
+
+
+
+
+
+
   const fetchResponseFromAssistant = async () => {
     if (prompt.trim() === "") return;
 
@@ -46,12 +57,16 @@ const ChatTextarea = forwardRef((props, ref) => {
       role: "system",
       isLoading: true,
     };
+    
     setMessages((messages) => [...messages, loadingMessage]);
 
     setLoading(true);
 
     try {
       const thread_id = agentID;
+      controller.current = new AbortController(); // Create a new AbortController
+      const signal = controller.current.signal;
+
       const response = await fetch("https://real-estate-ai-32c351019223.herokuapp.com/chat", {
         method: "POST",
         headers: {
@@ -61,6 +76,7 @@ const ChatTextarea = forwardRef((props, ref) => {
           thread_id: thread_id,
           message: prompt,
         }),
+        signal: signal, // Assign signal to the fetch request
       });
 
       if (!response.ok) {
@@ -68,54 +84,77 @@ const ChatTextarea = forwardRef((props, ref) => {
       }
 
       const data = await response.json();
-      console.log("text data",data.text)
+
+      // Check if the operation is canceled
+      if (stopAudio || mute) { // Check if either stopAudio or mute is true
+        setStopAudio(false); // Reset stopAudio flag
+        setAudioEnd(true);
+        setLoading(false);
+        if (audioRef.current) {
+          audioRef.current.pause(); // Pause the audio
+          audioRef.current.currentTime = 0; // Reset the audio to the beginning
+          audioRef.current.src = ""; // Clear the audio source to stop playback
+        }
+        setMessages((messages) => messages.filter((msg) => !msg.isLoading));
+        return;
+      }
+
       const audioBlob = new Blob([new Uint8Array(atob(data.audio).split("").map(char => char.charCodeAt(0)))], { type: 'audio/mpeg' });
-     
-      const audioUrl = URL.createObjectURL(audioBlob)
+      const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
-      // const duration = audio.duration;
-      console.log("audio end vlaue ",audioEnd)
-  
-      if(!stopAudio){
-        console.log("audio stop flag ," ,stopAudio )
-        audio.play();
-        audio.onended = () => {
-          // Change your flag here
-          console.log("Audio has finished playing");
-          setAudioEnd(true)
-          setLoading(false);
+      audioRef.current = audio; // Store the audio instance
 
-          // e.g., setFlag(false);
-        };
-      }
-      else{
-        console.log("audio stop flag ," ,stopAudio )
+      audio.play();
+      audio.onended = () => {
+        console.log("Audio has finished playing");
+        setAudioEnd(true);
+        setLoading(false);
+      };
 
-        setStopAudio(false)
-      }
-    
-     
-     
       setMessages((messages) =>
         messages.map((msg) =>
           msg.isLoading ? { content: data.text, role: "system" } : msg
         )
       );
 
-    
-
       setLoading(false);
-
-      // if(audioEnd){
-      //   setAudioEnd(false)
-
-      // }
-
     } catch (error) {
+      // Check if the error is due to fetch cancellation
+      if (error.name === 'AbortError') {
+        console.log('Fetch request aborted:', error.message);
+        return; // Exit function if fetch was aborted
+      }
+      
       toast.error(error.message);
       console.error("Error sending message:", error.message);
     }
   };
+
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    if (fetchCounter > 0) {
+      setShouldFetchResponse(true);
+    }
+  }, [fetchCounter]);
+
+  useEffect(() => {
+    if (prompt) {
+
+      fetchResponseFromAssistant()
+      setShouldFetchResponse(false);
+    }
+  }, [fetchCounter]);
+
+
+
 
   useEffect(() => {
     fetchAgentID();
@@ -162,9 +201,14 @@ const ChatTextarea = forwardRef((props, ref) => {
       setPrompt("");
     }
   };
-  useImperativeHandle(ref, () => ({
-    handleKeyDown,
-  }));
+  // useImperativeHandle(ref, () => ({
+  //   handleKeyDown,
+  // }));
+
+
+
+
+
 
   const handleStopClick = () => {
     if (isRecording) {
@@ -172,12 +216,28 @@ const ChatTextarea = forwardRef((props, ref) => {
       setIsRecording(false);
     }
     setLoading(false);
-    setStopAudio(true)
+    setStopAudio(true);
+    setAudioEnd(true);
+    setMute(true); // Set mute to true when stopping
 
-    setAudioEnd(true)
+    if (audioRef.current) {
+      audioRef.current.pause(); // Pause the audio
+      audioRef.current.currentTime = 0; // Reset the audio to the beginning
+      audioRef.current.src = ""; // Clear the audio source to stop playback
+    }
+
+    // Abort the ongoing fetch request
+    if (controller.current) {
+      controller.current.abort();
+    }
 
     setMessages((messages) => messages.filter((msg) => !msg.isLoading));
   };
+
+
+
+
+
 
   const handleMicClick = () => {
     if (isRecording) {
@@ -189,6 +249,18 @@ const ChatTextarea = forwardRef((props, ref) => {
     }
   };
 
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div className="!mt-1 md:ml-16 flex flex-row justify-center relative rounded-md shadow-sm ">
       <div className="relative">
@@ -321,7 +393,7 @@ const ChatTextarea = forwardRef((props, ref) => {
       )} */}
     </div>
   );
-});
+};
 
 export default ChatTextarea;
 

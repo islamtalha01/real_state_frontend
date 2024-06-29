@@ -8,10 +8,13 @@ const MessageContext = createContext();
 export const MessageProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [loading,setLoading] = useState(false)
+  // const [ShouldFetchResponse,setShouldFetchResponse] = useState(false)
   const [audioEnd,setAudioEnd] = useState(false)
   const [enableAudio,setEnableAudio] = useState(false)
+  const [prompt, setPrompt] = useState("");
+
   return (
-    <MessageContext.Provider value={{ messages, setMessages,loading,setLoading,audioEnd,setAudioEnd,setEnableAudio,enableAudio }}>
+    <MessageContext.Provider value={{ messages, setMessages,loading,setLoading,audioEnd,setAudioEnd,setEnableAudio,enableAudio,prompt,setPrompt, }}>
       {children}
     </MessageContext.Provider>
   );

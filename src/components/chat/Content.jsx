@@ -29,17 +29,11 @@ const introductoryMessage = [
 ];
 
 const Content = () => {
-  const { messages, loading, setEnableAudio,setMessages } = useMessages();
+  const { messages, loading, setEnableAudio,setMessages,setPrompt,setShouldFetchResponse } = useMessages();
   const scrollRef = useRef();
-  // const childRef = useRef();
+  const [fetchCounter, setFetchCounter] = useState(0); // Add this line
 
-  const triggerChildFunction = () => {
-    const userMessage = introductoryMessage[1]
-    setMessages((messages) => [...messages, userMessage]);
-    // if (childRef.current) {
-    //   childRef.current.handleKeyDown({ type: "click" });
-    // }
-  };
+ 
   const [isChecked, setIsChecked] = useState(false);
 
   const handleSwitch = (event) => {
@@ -48,6 +42,23 @@ const Content = () => {
     setEnableAudio(isChecked);
     setIsChecked(isChecked);
   };
+
+
+
+   const hanldlePromptClick = (index)=>{
+    
+    setPrompt(introductoryMessage[index].content)
+    // setShouldFetchResponse((prev) => !prev); 
+    setFetchCounter(prev => prev + 1); // Update this line
+
+    console.log("button clicked")
+    
+   }
+
+
+
+
+
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -120,6 +131,7 @@ const Content = () => {
             </div>
           </div>
             {messages?.map((message, index) => {
+              console.log("hi there")
               const isLastMessage = index === messages.length - 1;
               return (
                 <div key={index}>
@@ -150,22 +162,22 @@ const Content = () => {
 
 <div className="flex flex-col h-screen justify-center items-center overflow-auto">
   <div className="mx-3 mt-12 max-w-3xl flex flex-wrap items-stretch justify-center gap-4 md:grid md:grid-cols-2">
-    <button  className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]   ">
+    <button onClick={()=>hanldlePromptClick(0)} className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]   ">
       <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
       🏡  Are you interested in understanding the current real estate market trends in Southern California?
       </div>
     </button>
-    <button className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]  ">
+    <button onClick={()=>hanldlePromptClick(1)} className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]  ">
       <div className="line-clamp-3 text-balance text-white hover:text-gray-600 ">
       📍  Which specific areas or neighborhoods are you interested in exploring within Southern California?
       </div>
     </button>
-    <button className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]  ">
+    <button  onClick={()=>hanldlePromptClick(2)} className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]  ">
       <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
       🌟   What type of community vibe are you looking for (e.g., family-friendly, urban, suburban, beach town)?
       </div>
     </button>
-    <button className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left	 align-top text-[15px]  ">
+    <button onClick={()=>hanldlePromptClick(3)} className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left	 align-top text-[15px]  ">
       <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
       💼  Do you need information on the buying process, including financing options and what it is like to have Todd Kingsley on your team?
       </div>
@@ -183,7 +195,7 @@ const Content = () => {
 
       )}
       <div>
-        <ChatTextarea   />
+        <ChatTextarea  fetchCounter={fetchCounter} />
       </div>
     </div>
   );
