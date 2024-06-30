@@ -12,9 +12,11 @@ export const MessageProvider = ({ children }) => {
   const [audioEnd,setAudioEnd] = useState(false)
   const [enableAudio,setEnableAudio] = useState(false)
   const [prompt, setPrompt] = useState("");
+  const [isMuted, setIsMuted] = useState(false);
+
 
   return (
-    <MessageContext.Provider value={{ messages, setMessages,loading,setLoading,audioEnd,setAudioEnd,setEnableAudio,enableAudio,prompt,setPrompt, }}>
+    <MessageContext.Provider value={{ messages, setMessages,loading,setLoading,audioEnd,setAudioEnd,setEnableAudio,enableAudio,prompt,setPrompt,setIsMuted,isMuted }}>
       {children}
     </MessageContext.Provider>
   );

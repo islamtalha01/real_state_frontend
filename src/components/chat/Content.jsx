@@ -50,7 +50,7 @@ const Content = () => {
     setPrompt(introductoryMessage[index].content)
     // setShouldFetchResponse((prev) => !prev); 
     setFetchCounter(prev => prev + 1); // Update this line
-
+    
     console.log("button clicked")
     
    }
@@ -69,37 +69,7 @@ const Content = () => {
   return (
     <div className="relative flex-1 h-full flex flex-col pb-0">
       <div>
-        <div className="absolute top-4 right-4">
-          <label
-            htmlFor="toggleSwitch"
-            className="flex items-center cursor-pointer"
-          >
-            <div className="relative">
-              <input
-                id="toggleSwitch"
-                type="checkbox"
-                className="sr-only"
-                checked={isChecked}
-                onChange={handleSwitch}
-              />
-              <div
-                className={`block w-14 h-8 rounded-full ${
-                  isChecked ? "bg-customBlue" : "bg-gray-600"
-                }`}
-              ></div>
-              <div
-                className={`dot absolute left-1 top-1 w-6 h-6 rounded-full transition ${
-                  isChecked
-                    ? "transform translate-x-6 bg-white"
-                    : "transform translate-x-0 bg-white"
-                }`}
-              ></div>
-            </div>
-            <div className="ml-3 text-white font-medium">
-              Disable Audio Response
-            </div>
-          </label>
-        </div>
+       
       </div>
       <div className="border-b border-[#f2f2f2] px-[2rem] pb-6 dark:border-[#484848] flex-shrink-0">
         <div className="flex flex-col items-center justify-center">

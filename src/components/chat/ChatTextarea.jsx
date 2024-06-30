@@ -10,7 +10,7 @@ import Loader from "../loader/DevinLoader";
 const ChatTextarea = ({fetchCounter}) => {
   const textAreaRef = useRef(null);
   const [agentID, setAgentID] = useState(null);
-  const { messages, prompt,setPrompt,setMessages, setLoading, loading,audioEnd,setAudioEnd } = useMessages();
+  const {  prompt,setPrompt,setMessages, setLoading, loading,setAudioEnd ,isMuted} = useMessages();
   const [isRecording, setIsRecording] = useState(false);
   const recognition = useRef(null);
   const [stopAudio,setStopAudio] = useState(false)
@@ -57,9 +57,9 @@ const ChatTextarea = ({fetchCounter}) => {
       role: "system",
       isLoading: true,
     };
-    
+    setPrompt("")
     setMessages((messages) => [...messages, loadingMessage]);
-
+    
     setLoading(true);
 
     try {
@@ -75,6 +75,7 @@ const ChatTextarea = ({fetchCounter}) => {
         body: JSON.stringify({
           thread_id: thread_id,
           message: prompt,
+          voiceResponse:!isMuted,
         }),
         signal: signal, // Assign signal to the fetch request
       });
@@ -98,18 +99,20 @@ const ChatTextarea = ({fetchCounter}) => {
         setMessages((messages) => messages.filter((msg) => !msg.isLoading));
         return;
       }
-
-      const audioBlob = new Blob([new Uint8Array(atob(data.audio).split("").map(char => char.charCodeAt(0)))], { type: 'audio/mpeg' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio; // Store the audio instance
-
-      audio.play();
-      audio.onended = () => {
-        console.log("Audio has finished playing");
-        setAudioEnd(true);
-        setLoading(false);
-      };
+      if(!isMuted){
+        const audioBlob = new Blob([new Uint8Array(atob(data.audio).split("").map(char => char.charCodeAt(0)))], { type: 'audio/mpeg' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audioRef.current = audio; // Store the audio instance
+  
+        audio.play();
+        audio.onended = () => {
+          console.log("Audio has finished playing");
+          setAudioEnd(true);
+          setLoading(false);
+        };
+      }
+    
 
       setMessages((messages) =>
         messages.map((msg) =>

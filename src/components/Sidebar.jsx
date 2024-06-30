@@ -4,12 +4,9 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
-import { classNames } from "../utilis/utilis";
-import { navigation } from "../data/navigation";
 import ReloadButton from "./ReloadButton";
-import MyIcon from "../../public/MyIcon";
 import sidebarIcon from "../assets/test.png";
-
+import MicToggle from "./chat/MicToggle";
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
@@ -86,10 +83,11 @@ export default function Sidebar() {
 
           <div className="flex-1 flex flex-col pb-4 overflow-y-auto "></div>
 
-          <div className="flex items-center justify-between  pb-3 duration-300">
-            <div className="flex items-center">
+          <div className="flex flex-col items-center w-16 justify-between   pb-3 duration-300">
+            {/* <div className="flex items-center"> */}
+            <MicToggle />
               <ReloadButton styleProp={{ width: "20px", height: "20px" }} />
-            </div>
+            {/* </div> */}
           </div>
         </div>
       {/* </div> */}
@@ -123,12 +121,13 @@ export default function Sidebar() {
           </div>
 
           <div className="flex-1 flex flex-col pb-4 overflow-y-auto "></div>
+          
+          <div className="flex flex-col items-center justify-between  pb-3 duration-300">
+            {/* <div className="flex items-center"> */}
+            <MicToggle />
 
-          <div className="flex items-center justify-between  pb-3 duration-300">
-            <div className="flex items-center">
               <ReloadButton styleProp={{ width: "20px", height: "20px" }} />
-            </div>
-          </div>
+           </div>
         </div>
       </div>
 
