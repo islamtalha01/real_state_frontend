@@ -130,8 +130,8 @@ const Content = () => {
 
 
 
-<div className="flex flex-col h-screen justify-center items-center overflow-auto">
-  <div className="mx-3 mt-12 max-w-3xl flex flex-wrap items-stretch justify-center gap-4 md:grid md:grid-cols-2">
+<div className="flex flex-col h-screen justify-center items-center overflow-auto md:overflow-hidden">
+  <div className="mx-3 mt-60 mb-8 md:mt-0mb-0 max-w-3xl flex flex-wrap items-stretch justify-center gap-4 md:grid md:grid-cols-2">
     <button onClick={()=>hanldlePromptClick(0)} className="relative flex w-72 h-28 flex-col gap-4 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-left align-top text-[15px]   ">
       <div className="line-clamp-3 text-balance text-white hover:text-gray-600">
       🏡  Are you interested in understanding the current real estate market trends in Southern California?
